@@ -105,7 +105,15 @@
 #     judge = rag_llm.invoke(judge_prompt).content
 
 #     st.write(judge)
+import traceback
 
+# wrap your run button section
+if run and query:
+    try:
+        # ... your existing code
+    except Exception as e:
+        st.error(f"Error: {e}")
+        st.code(traceback.format_exc())
 import streamlit as st
 import os
 import time

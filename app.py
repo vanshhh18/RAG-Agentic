@@ -209,7 +209,26 @@
 #         st.error(f"**Error:** {e}")
 #         st.code(traceback.format_exc())
 
+# import streamlit as st
+
+# st.title("Hello World")
+# st.write("Deployment successful!")
+
 import streamlit as st
 
-st.title("Hello World")
-st.write("Deployment successful!")
+st.write("✅ Streamlit")
+
+import os
+st.write("✅ os")
+
+import time
+st.write("✅ time")
+
+import traceback
+st.write("✅ traceback")
+
+from langchain_groq import ChatGroq
+st.write("✅ ChatGroq")
+
+from retrieval import hybrid_search
+st.write("✅ Retrieval imported")

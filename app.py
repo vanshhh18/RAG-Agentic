@@ -8,9 +8,7 @@ from langchain_groq import ChatGroq
 from retrieval import hybrid_search
 
 
-# =========================
-# PAGE CONFIG
-# =========================
+
 st.set_page_config(
     page_title="RAG vs LLM — Agentic Insight",
     layout="wide",
@@ -18,9 +16,7 @@ st.set_page_config(
 )
 
 
-# =========================
-# CUSTOM CSS
-# =========================
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
@@ -66,9 +62,7 @@ div[data-testid="stButton"] > button:hover { opacity: 0.88 !important; transform
 """, unsafe_allow_html=True)
 
 
-# =========================
-# HERO HEADER
-# =========================
+
 st.markdown("""
 <div class="hero">
     <div class="hero-eyebrow">Agentic AI System</div>
@@ -80,9 +74,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# =========================
-# INPUT ROW
-# =========================
+
 col_input, col_btn = st.columns([5, 1])
 with col_input:
     query = st.text_input(
@@ -94,9 +86,7 @@ with col_btn:
     run = st.button("⚡ Run", use_container_width=True)
 
 
-# =========================
-# LLM SETUP
-# =========================
+
 @st.cache_resource
 def get_llms():
     rag_llm = ChatGroq(
@@ -112,14 +102,12 @@ def get_llms():
     return rag_llm, generic_llm
 
 
-# =========================
-# RUN PIPELINE
-# =========================
+
 if run and query:
     try:
         rag_llm, generic_llm = get_llms()
 
-        # --- RAG ---
+        
         with st.spinner("Retrieving from your data…"):
             t0 = time.time()
             docs = hybrid_search(query)
@@ -131,14 +119,14 @@ Question: {query}"""
             rag_response = rag_llm.invoke(rag_prompt).content
             rag_time = round(time.time() - t0, 2)
 
-        # --- Generic ---
+        
         with st.spinner("Querying generic LLM…"):
             t1 = time.time()
             generic_prompt = f"Answer the question:\n{query}"
             generic_response = generic_llm.invoke(generic_prompt).content
             generic_time = round(time.time() - t1, 2)
 
-        # --- Panels ---
+        
         c1, c2 = st.columns(2, gap="large")
 
         with c1:
@@ -176,7 +164,7 @@ Question: {query}"""
             </div>
             """, unsafe_allow_html=True)
 
-        # --- Agent Insight ---
+        
         st.markdown("""
         <div class="fancy-divider">
             <div class="fancy-divider-line"></div>

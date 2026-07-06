@@ -11,9 +11,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FAISS_DIR = os.path.join(BASE_DIR, "vector_db")
 BM25_PATH = os.path.join(BASE_DIR, "bm25.pkl")
 
-# =========================
-# DOWNLOAD FROM HF
-# =========================
+
 def download_indexes():
     if not os.path.exists(FAISS_DIR):
         print("Downloading FAISS index...")
@@ -39,16 +37,12 @@ def download_indexes():
 
 download_indexes()
 
-# =========================
-# EMBEDDINGS
-# =========================
+
 @lru_cache(maxsize=1)
 def get_embeddings():
     return HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
-# =========================
-# FAISS LOAD
-# =========================
+
 @lru_cache(maxsize=1)
 def load_faiss():
     return FAISS.load_local(
@@ -57,15 +51,11 @@ def load_faiss():
         allow_dangerous_deserialization=True
     )
 
-# =========================
-# BM25 LOAD
-# =========================
+
 with open(BM25_PATH, "rb") as f:
     bm25, docs = pickle.load(f)
 
-# =========================
-# RETRIEVERS
-# =========================
+
 def faiss_retriever():
     return load_faiss().as_retriever(search_kwargs={"k": 3})
 
